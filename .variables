@@ -1,0 +1,17 @@
+# Golang
+export GOPATH=~/go
+
+# Golang + RVM
+export PATH="/usr/local/go/bin:/usr/local/opt/curl/bin:$PATH:$GOPATH/bin:/usr/local/bin:$HOME/.rvm/bin:/Users/bvale/.stack/snapshots/x86_64-osx/lts-8.21/8.0.2/bin:/Users/bvale/.stack/programs/x86_64-osx/ghc-8.0.2/bin:/Users/bvale/rundeck/bin:/usr/local/Cellar/mongodb/3.6.3/bin:/usr/local/Cellar/python@2/2.7.14_3/bin:$HOME/bin/localdeployer"
+
+export WSGC_REPOS="$HOME/wsgc"
+export PAPERTRAIL_API_TOKEN='dKhlJfvyjFUiJVdFm1nP'
+export MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djavax.net.ssl.trustStore=/Users/bvale/wsgc/cacerts"
+export KUBE_EDITOR="vim"
+
+# Rundeck
+export RD_URL="https://rundeck.wsgc.com/rundeck"
+export RD_PROJECT="wsgc"
+export RD_TOKEN="S27FIQy2vS3HPMnJX9TT5psv4gmchlpE"
+export NVM_DIR="$HOME/.nvm"
+#. "/usr/local/opt/nvm/nvm.sh"

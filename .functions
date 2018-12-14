@@ -1,0 +1,59 @@
+#!/bin/bash
+exchangekeys() {
+    hosts=($@)
+    echo $@
+    for host in "${hosts[@]}"; do
+       ssh-copy-id -i ~/.ssh/id_rsa.pub a_bvale@$host
+    done
+}
+
+wsiconnect() {
+  SPLIT_TUNNEL_PATH="$HOME/projects/wsi-split-tunnel"
+  cd $SPLIT_TUNNEL_PATH
+  sudo openconnect --script=./split-traffic https://vpn.wsgc.com
+}
+
+foldersize() {
+    PARAM=$1
+    DEPTH=${PARAM:=1}
+    du -h -d $DEPTH | gsort -h
+}
+
+rebaseall() {
+    PARAM=$1
+    DEFAULT_BRANCH=${PARAM:='master'}
+    CURRENT_BRANCH=$(git branch | sed -n '/\* /s///p')
+    echo "Dropping all commits of branch $CURRENT_BRANCH"
+    git reset $(git merge-base $DEFAULT_BRANCH $CURRENT_BRANCH)
+}
+
+setbranch() {
+    PARAM=$1
+    DEFAULT_REMOTE=${PARAM:='origin'}
+    CURRENT_BRANCH=$(git branch | sed -n '/\* /s///p')
+    git branch --set-upstream-to=${DEFAULT_REMOTE}/${CURRENT_BRANCH} $CURRENT_BRANCH
+}
+
+docker_remove_containers() {
+    docker ps -a -q | xargs docker rm -f
+}
+
+rundeck() {
+    docker run -it --rm \
+    -e RD_CONF=/root/.rd/rd.conf \
+    -v /Users/bvale/wsgc/rundeck-jobs:/Users/bvale/wsgc/rundeck-jobs:ro \
+    -v "$HOME/.rd/rd.conf:/root/.rd/rd.conf" \
+    wsgc/rundeck $@
+}
+
+prometheus() {
+  k -n monitoring port-forward prometheus-kube-prometheus-0 9090
+}
+
+alertmanager() {
+ k -n monitoring port-forward alertmanager-kube-prometheus-0 9093
+}
+
+decode() {
+    echo -n $1 | base64 -D
+}
